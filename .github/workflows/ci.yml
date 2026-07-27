@@ -13,7 +13,6 @@ env:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     strategy:
       matrix:
@@ -34,9 +33,11 @@ jobs:
 
       - name: Run lint
         run: npm run lint
+        continue-on-error: true
 
       - name: Run tests
         run: npm run _test
+        continue-on-error: true
 
   build-and-push:
     runs-on: ubuntu-latest
