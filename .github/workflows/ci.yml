@@ -1,9 +1,7 @@
-name: CI/CD
+name: Build and Push Container
 
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
     branches: [ main, master ]
 
 env:
@@ -11,37 +9,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run lint
-        run: npm run lint
-        continue-on-error: true
-
-      - name: Run tests
-        run: npm run _test
-        continue-on-error: true
-
   build-and-push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
 
     permissions:
       contents: read
